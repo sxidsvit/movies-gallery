@@ -17,8 +17,13 @@ const fetchData = async (url) => {
         item.img = "https://image.tmdb.org/t/p/w500/zE3dfBIYNMBXQrhQaCyZl99wwS0.jpg"
       }
     })
+    const mySet = new Set(movies.map(movie => movie.id))
+    const moviesById = {}
+    for (let value of mySet) {
+      moviesById[value] = movies.filter(item => item.id === value)[0]
+    }
     localStorage.removeItem('movies');
-    localStorage.setItem('movies', JSON.stringify(movies))
+    localStorage.setItem('movies', JSON.stringify(moviesById))
   } catch (err) {
     console.log(`Problem with fetching data: ${err.message}`)
   }
@@ -35,7 +40,8 @@ fetchData(FullList)
 // @ Render all cards 
 
 const renderAllCards = (movies) => {
-  const allCards = movies.map(({ id, img, name, year }) => {
+  const allCards = Object.values(movies).map(({ id, img, name, year }) => {
+
     return `
       <div class="card" data-id="${id}" data-star="white">
         <div class="star star-white" ></div>
@@ -52,6 +58,8 @@ const renderAllCards = (movies) => {
 
 renderAllCards(JSON.parse(localStorage.getItem('movies')))
 
+// @ Render favorite cards 
+
 const renderFavorites = (ids) => {
 
   let allCards = `<p>You don't have favorite movies</p>`
@@ -59,21 +67,16 @@ const renderFavorites = (ids) => {
   if (ids.length > 0) {
 
     const movies = JSON.parse(localStorage.getItem('movies'))
-    const mySet = new Set(movies.map(movie => movie.id))
-    const groupObj = {}
-    for (let value of mySet) {
-      groupObj[value] = movies.filter(item => item.id === value)[0]
-    }
+    const favoriteMovies = ids.map(id => movies[id])
 
-    const favoriteMovies = ids.map(id => groupObj[id])
-    console.log('favoriteMovies: ', favoriteMovies);
+    localStorage.removeItem('favoriteMovies')
+    localStorage.setItem('favoriteMovies', JSON.stringify(favoriteMovies))
 
-
-    allCards = favoriteMovies.map(({ name }) => {
+    allCards = favoriteMovies.map(({ id, name }) => {
       return `
-      <li class="favorite-text">
+      <li class="favorite-text" data-id="${id}">
       <span>&rarr;&nbsp;&nbsp;${name}</span>
-      <span class="delete-mark">&times;</span>
+      <span class="delete-mark" data-id="${id}">&times;</span>
       
       </li>
       `
@@ -84,7 +87,6 @@ const renderFavorites = (ids) => {
   favoriteUl.innerHTML = allCards
 }
 
-
 const getFavorites = () => {
   return [...moviesWrapper.querySelectorAll('.card')]
     .filter(card => card.dataset.star === 'favorite')
@@ -92,8 +94,9 @@ const getFavorites = () => {
 }
 
 
-// Hendlers 
+// Hendlers -----------------------
 
+// Set favoriets
 moviesWrapper.addEventListener('click', (e) => {
   if (e.target.closest('.star')) {
     const star = e.target.closest('.star')
@@ -107,5 +110,39 @@ moviesWrapper.addEventListener('click', (e) => {
     localStorage.setItem('favoriteMoviesId', JSON.stringify(favoriteMoviesId))
 
     renderFavorites(favoriteMoviesId)
+  }
+})
+
+// remove favorites
+favoriteUl.addEventListener('click', (e) => {
+  const item = e.target.closest('.delete-mark')
+
+  if (item) {
+    const idRemove = item.dataset.id
+
+    // Reset favorite for Movie Galary (data-atribute & class)
+
+    let card = [...moviesWrapper.querySelectorAll('.card')]
+      .filter(elem => +elem.dataset.id === +idRemove)[0]
+
+    card.dataset.star === "white" ? card.dataset.star = "favorite" : card.dataset.star = "white"
+
+    card.querySelector('.star').classList.remove('star-gold')
+
+    // Reset favorite movies' 
+
+    let favoriteMovies = JSON.parse(localStorage.getItem('favoriteMovies'))
+    let newFavoriteMovies = favoriteMovies.filter(movie => +movie.id !== +idRemove)
+    localStorage.removeItem('favoriteMovies')
+    localStorage.setItem('favoriteMovies', JSON.stringify(newFavoriteMovies))
+
+    // Reset favorite movies' id
+
+    let favoriteMoviesId = JSON.parse(localStorage.getItem('favoriteMoviesId'))
+    let newFavoriteMoviesId = favoriteMoviesId.filter(id => id !== idRemove)
+    localStorage.removeItem('favoriteMoviesId')
+    localStorage.setItem('favoriteMoviesId', JSON.stringify(newFavoriteMoviesId))
+
+    renderFavorites(newFavoriteMoviesId)
   }
 })
