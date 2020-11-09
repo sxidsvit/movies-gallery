@@ -2,7 +2,8 @@
 const FullList = `http://my-json-server.typicode.com/moviedb-tech/movies/list`
 
 // DOM elements
-const cardsWrapper = document.querySelector('.cards-wrapper')
+const moviesWrapper = document.querySelector('.movies-wrapper')
+const favoriteUl = document.querySelector('.favorite-ul')
 
 //  Functions 
 
@@ -45,24 +46,55 @@ const renderAllCards = (movies) => {
         </div>
       </div>
     `
-  }).join()
-  cardsWrapper.innerHTML = allCards
+  }).join('')
+  moviesWrapper.innerHTML = allCards
 }
 
 renderAllCards(JSON.parse(localStorage.getItem('movies')))
 
+const renderFavorites = (ids) => {
+
+  let allCards = `<p>You don't have favorite movies</p>`
+
+  if (ids.length > 0) {
+
+    const movies = JSON.parse(localStorage.getItem('movies'))
+    const mySet = new Set(movies.map(movie => movie.id))
+    const groupObj = {}
+    for (let value of mySet) {
+      groupObj[value] = movies.filter(item => item.id === value)[0]
+    }
+
+    const favoriteMovies = ids.map(id => groupObj[id])
+    console.log('favoriteMovies: ', favoriteMovies);
+
+
+    allCards = favoriteMovies.map(({ name }) => {
+      return `
+      <li class="favorite-text">
+      <span>&rarr;&nbsp;&nbsp;${name}</span>
+      <span class="delete-mark">&times;</span>
+      
+      </li>
+      `
+    }).join('')
+  }
+
+  favoriteUl.innerHTML = ""
+  favoriteUl.innerHTML = allCards
+}
+
 
 const getFavorites = () => {
-  return [...cardsWrapper.querySelectorAll('.card')]
+  return [...moviesWrapper.querySelectorAll('.card')]
     .filter(card => card.dataset.star === 'favorite')
     .map(card => card.dataset.id)
 }
 
 
-
 // Hendlers 
 
-cardsWrapper.addEventListener('click', (e) => {
+moviesWrapper.addEventListener('click', (e) => {
   if (e.target.closest('.star')) {
     const star = e.target.closest('.star')
     star.classList.toggle('star-gold')
@@ -73,5 +105,7 @@ cardsWrapper.addEventListener('click', (e) => {
 
     localStorage.removeItem('favoriteMoviesId');
     localStorage.setItem('favoriteMoviesId', JSON.stringify(favoriteMoviesId))
+
+    renderFavorites(favoriteMoviesId)
   }
 })
