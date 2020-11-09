@@ -36,7 +36,7 @@ fetchData(FullList)
 const renderAllCards = (movies) => {
   const allCards = movies.map(({ id, img, name, year }) => {
     return `
-      <div class="card" data-id="${id} " data-star="white">
+      <div class="card" data-id="${id}" data-star="white">
         <div class="star star-white" ></div>
         <img src="${img}" class="movie-img" alt="${name}">
         <div class="movie-body">
@@ -70,6 +70,8 @@ cardsWrapper.addEventListener('click', (e) => {
     const card = e.target.closest('.card')
     card.dataset.star === "white" ? card.dataset.star = "favorite" : card.dataset.star = "white"
     const favoriteMoviesId = getFavorites()
-    console.log('favoriteMoviesId: ', favoriteMoviesId);
+
+    localStorage.removeItem('favoriteMoviesId');
+    localStorage.setItem('favoriteMoviesId', JSON.stringify(favoriteMoviesId))
   }
 })
