@@ -1,11 +1,16 @@
-// Constants 
+// Constants ===========================
+
 const FullList = `http://my-json-server.typicode.com/moviedb-tech/movies/list`
 
-// DOM elements
+
+// DOM elements ===========================
+
 const moviesWrapper = document.querySelector('.movies-wrapper')
 const favoriteUl = document.querySelector('.favorite-ul')
+const movieContent = document.querySelector('.modal > .movie-content')
+console.log('movieContent: ', movieContent);
 
-//  Functions 
+//  Functions ===========================
 
 //  @ Get information about films
 const fetchData = async (url) => {
@@ -37,9 +42,9 @@ fetchData(FullList)
 // const oneMovie = `${FullList}/${id}`
 // fetchData(oneMovie)
 
-// @ Render all cards 
+// @ Render all movies
 
-const renderAllCards = (movies) => {
+const renderAllMovies = (movies) => {
   const allCards = Object.values(movies).map(({ id, img, name, year }) => {
 
     return `
@@ -56,9 +61,9 @@ const renderAllCards = (movies) => {
   moviesWrapper.innerHTML = allCards
 }
 
-renderAllCards(JSON.parse(localStorage.getItem('movies')))
+renderAllMovies(JSON.parse(localStorage.getItem('movies')))
 
-// @ Render favorite cards 
+// @ Render favorite movies 
 
 const renderFavorites = (ids) => {
 
@@ -87,14 +92,60 @@ const renderFavorites = (ids) => {
   favoriteUl.innerHTML = allCards
 }
 
+// @ Get favorites movies 
+
 const getFavorites = () => {
   return [...moviesWrapper.querySelectorAll('.card')]
     .filter(card => card.dataset.star === 'favorite')
     .map(card => card.dataset.id)
 }
 
+// @ Render modal movie 
 
-// Hendlers -----------------------
+const renderModalMovie = () => {
+  // const allCards = Object.values(movies).map(({ id, img, name, year }) => {
+
+  return `
+<div class="modal-close">&times;</div>
+      <div class="movie-content-left">
+        <img src="https://images-na.ssl-images-amazon.com/images/I/5147KKVUmkL._SX342_.jpg" class="movie-img"
+          alt="The Mechanic">
+        <div class="movie-star-year">
+          <div class="movie-star">&star;</div>
+          <div class="movie-year">2010</div>
+        </div>
+        <div class="movie-geners">
+          <span>action</span>
+          <span>crime</span>
+          <span>USA</span>
+        </div>
+      </div>
+      <div class="movie-content-rigth">
+        <div class="movie-title">The Mechanic</div>
+        <div class="movie-description">
+          Statham stars as Arthur Bishop, a professional assassin who specializes in making his hits look like
+          accidents, suicides,
+          or the acts of petty criminals.
+        </div>
+        <div class="movie-director">
+          <span class="movie-text-bold">Director:</span>
+          Simon West
+        </div>
+        <div class="movie-starting">
+          <span class="movie-text-bold">Starting:&nbsp;</span>
+          <span>Jason Statham,&nbsp;</span>
+          <span>Ben Foster,&nbsp;</span>
+          <span>Donald Sutherland,&nbsp;</span>
+          <span>Tony Goldwyn&nbsp;</span>
+        </div>
+      </div>
+    `
+}
+const modalMovie = renderModalMovie()
+movieContent.innerHTML = ''
+movieContent.innerHTML = modalMovie
+
+// Hendlers ===========================
 
 // Set favoriets
 moviesWrapper.addEventListener('click', (e) => {
