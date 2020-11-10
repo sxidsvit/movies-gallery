@@ -84,7 +84,9 @@ $color-gold: #F7AC08;
   height: auto;
   flex-shrink: 0;
   padding-bottom: 2rem;
-  /* position: absolute; */
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .movie-text {
@@ -135,6 +137,9 @@ ul {
   margin: 1rem 0;
   padding-bottom: 0.7rem;
   border-bottom: 1px solid $line-color;
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .favorite-text>span {
@@ -155,10 +160,16 @@ ul {
   cursor: pointer;
 }
 
+.allert-warning {
+  display: block;
+  color: red;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
 /* Modal */
 
 .modal {
-  display: none;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -172,6 +183,10 @@ ul {
   right: 0;
   bottom: 0;
   z-index: 10;
+  &-hide{
+   display: none;
+  }
+
 }
 
 
@@ -187,7 +202,7 @@ ul {
     position: absolute;
     top: 0;
     right: 0;
-    font-size: 5rem;
+    font-size: 3rem;
     line-height: 0.6;
     font-weight: bold;
     // width: 60px;
@@ -212,6 +227,7 @@ ul {
       background-color: #fff;
       padding: 2rem;
       cursor: auto;
+      z-index: 20;
 
       &-left {
        width: 30%;

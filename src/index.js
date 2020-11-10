@@ -5,14 +5,17 @@ const FullList = `http://my-json-server.typicode.com/moviedb-tech/movies/list`
 
 // DOM elements ===========================
 
+const movieGallery = document.querySelector('.movie-gallery')
 const moviesWrapper = document.querySelector('.movies-wrapper')
 const favoriteUl = document.querySelector('.favorite-ul')
 const movieContent = document.querySelector('.modal > .movie-content')
-console.log('movieContent: ', movieContent);
+
 
 //  Functions ===========================
 
-//  @ Get information about films
+// @ Get all movies from server 
+//  and save them to localStorage
+
 const fetchData = async (url) => {
   try {
     const response = await fetch(url)
@@ -33,18 +36,22 @@ const fetchData = async (url) => {
     console.log(`Problem with fetching data: ${err.message}`)
   }
 }
-
-// @ All movies 
 fetchData(FullList)
-
-// Movie with predefined value id 
-// const id = 7
-// const oneMovie = `${FullList}/${id}`
-// fetchData(oneMovie)
 
 // @ Render all movies
 
 const renderAllMovies = (movies) => {
+
+  if (!movies) {
+    moviesWrapper.innerHTML = ''
+    moviesWrapper.innerHTML =
+      `
+      <div class="allert-warning text-center " > localStorage empty</ >
+        <div class="allert-warning text-center ">Reload the app to get movies from the server</div>
+      `
+    return
+  }
+
   const allCards = Object.values(movies).map(({ id, img, name, year }) => {
 
     return `
@@ -58,6 +65,8 @@ const renderAllMovies = (movies) => {
       </div>
     `
   }).join('')
+
+  moviesWrapper.innerHTML = ''
   moviesWrapper.innerHTML = allCards
 }
 
@@ -92,6 +101,81 @@ const renderFavorites = (ids) => {
   favoriteUl.innerHTML = allCards
 }
 
+// @ Render modal movie 
+
+const renderModalMovie = (id) => {
+
+  const modalMovie = JSON.parse(localStorage.getItem('movies')).[id]
+
+  if (!modalMovie) {
+    movieContent.innerHTML = ''
+    movieContent.innerHTML =
+      `
+      <div class="allert-warning text-center">localStorage empty. &nbsp;</div>
+      <div class="allert-warning text-center ">Reload app to get movies from the server</div>
+      `
+    return
+  }
+
+  const { name, img, description, year, genres, director, starring } = modalMovie
+
+  const genresList = genres
+    .map(genre => `<span>${genre}</span>`)
+    .join('')
+
+  const starringList = starring
+    .map(star => `&nbsp;<span>${star}</span>`)
+    .join(',')
+
+  const content = `
+      <div class="modal-close">&times;</div>
+      <div class="movie-content-left">
+        <img src=${img} class="movie-img"
+          alt="${name}">
+        <div class="movie-star-year">
+          <div class="movie-star">&star;</div>
+          <div class="movie-year">${year}</div>
+        </div>
+        <div class="movie-geners">${genresList}
+        </div>
+      </div>
+      <div class="movie-content-rigth">
+        <div class="movie-title">${name}</div>
+        <div class="movie-description">
+         ${description}
+        </div>
+        <div class="movie-director">
+          <span class="movie-text-bold">Director:</span>
+          ${director}
+        </div>
+        <div class="movie-starting">
+          <span class="movie-text-bold">Starting 2:&nbsp;</span>
+          ${starringList}
+          <span>Tony Goldwyn&nbsp;</span>
+        </div>
+      </div>
+    `
+  movieContent.innerHTML = ''
+  movieContent.innerHTML = content
+  addModalMovieListener()
+}
+
+// @ Select Favorite Movies
+
+function selectFavoriteMovies(e) {
+  const star = e.target.closest('.star')
+  star.classList.toggle('star-gold')
+
+  const card = e.target.closest('.card')
+  card.dataset.star === "white" ? card.dataset.star = "favorite" : card.dataset.star = "white"
+  const favoriteMoviesId = getFavorites()
+
+  localStorage.removeItem('favoriteMoviesId');
+  localStorage.setItem('favoriteMoviesId', JSON.stringify(favoriteMoviesId))
+
+  return favoriteMoviesId
+}
+
 // @ Get favorites movies 
 
 const getFavorites = () => {
@@ -100,71 +184,58 @@ const getFavorites = () => {
     .map(card => card.dataset.id)
 }
 
-// @ Render modal movie 
+// @ Open modal 
 
-const renderModalMovie = () => {
-  // const allCards = Object.values(movies).map(({ id, img, name, year }) => {
+function openModalMovieHandler(e) {
+  const id = e.target
+    .closest('[data-id]')?.dataset.id
+  if (!id) { return }
+  renderModalMovie(id)
 
-  return `
-<div class="modal-close">&times;</div>
-      <div class="movie-content-left">
-        <img src="https://images-na.ssl-images-amazon.com/images/I/5147KKVUmkL._SX342_.jpg" class="movie-img"
-          alt="The Mechanic">
-        <div class="movie-star-year">
-          <div class="movie-star">&star;</div>
-          <div class="movie-year">2010</div>
-        </div>
-        <div class="movie-geners">
-          <span>action</span>
-          <span>crime</span>
-          <span>USA</span>
-        </div>
-      </div>
-      <div class="movie-content-rigth">
-        <div class="movie-title">The Mechanic</div>
-        <div class="movie-description">
-          Statham stars as Arthur Bishop, a professional assassin who specializes in making his hits look like
-          accidents, suicides,
-          or the acts of petty criminals.
-        </div>
-        <div class="movie-director">
-          <span class="movie-text-bold">Director:</span>
-          Simon West
-        </div>
-        <div class="movie-starting">
-          <span class="movie-text-bold">Starting:&nbsp;</span>
-          <span>Jason Statham,&nbsp;</span>
-          <span>Ben Foster,&nbsp;</span>
-          <span>Donald Sutherland,&nbsp;</span>
-          <span>Tony Goldwyn&nbsp;</span>
-        </div>
-      </div>
-    `
+  const modal = document.querySelector('.modal')
+  modal.classList.remove('modal-hide')
 }
-const modalMovie = renderModalMovie()
-movieContent.innerHTML = ''
-movieContent.innerHTML = modalMovie
+
+// @ Add modal movie listener
+
+function addModalMovieListener() {
+
+  const modal = document.querySelector('.modal')
+  const closeModalHandler = (e) => {
+    e.preventDefault()
+    const target = e.target
+    if (target.classList.contains('modal')
+      || target.classList.contains('modal-close')) {
+      modal.classList.add('modal-hide')
+      modal.removeEventListener('click', closeModalHandler)
+    }
+  }
+
+  modal.addEventListener('click', closeModalHandler)
+}
+
 
 // Hendlers ===========================
 
-// Set favoriets
-moviesWrapper.addEventListener('click', (e) => {
+// Open Modal
+movieGallery.addEventListener('click', (e) => {
+
   if (e.target.closest('.star')) {
-    const star = e.target.closest('.star')
-    star.classList.toggle('star-gold')
-
-    const card = e.target.closest('.card')
-    card.dataset.star === "white" ? card.dataset.star = "favorite" : card.dataset.star = "white"
-    const favoriteMoviesId = getFavorites()
-
-    localStorage.removeItem('favoriteMoviesId');
-    localStorage.setItem('favoriteMoviesId', JSON.stringify(favoriteMoviesId))
-
+    const favoriteMoviesId = selectFavoriteMovies(e)
     renderFavorites(favoriteMoviesId)
   }
+
+  if (e.target.closest('.movie-img')) {
+    openModalMovieHandler(e)
+  }
+
+  if (e.target.closest('.favorite-text')) {
+    openModalMovieHandler(e)
+  }
+
 })
 
-// remove favorites
+// Set favoriets
 favoriteUl.addEventListener('click', (e) => {
   const item = e.target.closest('.delete-mark')
 
