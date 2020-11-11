@@ -32,7 +32,9 @@ function markFavoriteMovies(e) {
   }
 
   const card = e.target.closest('.card')
-  card.dataset.star === "white" ? card.dataset.star = "favorite" : card.dataset.star = "white"
+  card.dataset.star === "white"
+    ? card.dataset.star = "favorite"
+    : card.dataset.star = "white"
   const favoriteMoviesId = getFavorites()
 
   removeDBdata('favoriteMoviesId');

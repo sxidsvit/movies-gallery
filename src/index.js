@@ -1,6 +1,5 @@
 import { getDBdata } from './js/db'
 import { fetchData } from './js/fetchData'
-import { renderAllMovies } from './js/renders/renderAllMovies'
 import { renderFavorites } from './js/renders/renderFavorites'
 import { openNodal, clickFavoriteUl } from './js/handlers'
 
@@ -12,12 +11,7 @@ const FullList = `http://my-json-server.typicode.com/moviedb-tech/movies/list`
 
 fetchData(FullList)
 
-// @ Render all movies
-
-
-renderAllMovies(getDBdata('movies'))
-
-// @ Render favorite movies 
+// @ Render favorite movies list
 
 renderFavorites(getDBdata('favoriteMoviesId'))
 

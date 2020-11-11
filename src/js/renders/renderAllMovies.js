@@ -6,6 +6,7 @@ const moviesWrapper = document.querySelector('.movies-wrapper')
 export function renderAllMovies(movies) {
 
   if (!movies) {
+    console.log('movies: ', movies);
     moviesWrapper.innerHTML = ''
     moviesWrapper.innerHTML =
       `
