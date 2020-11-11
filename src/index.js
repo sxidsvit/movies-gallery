@@ -54,16 +54,26 @@ const renderAllMovies = (movies) => {
 
   const allCards = Object.values(movies).map(({ id, img, name, year }) => {
 
+    // get favorite movies from localStorage
+    let favoriteMoviesId = JSON.parse(localStorage.getItem('favoriteMoviesId'))
+
+    const dataAtributes = favoriteMoviesId.includes(id.toString())
+      ? `data-id="${id}" data-star="favorite"`
+      : `data-id="${id}" data-star="white" `
+
+    const starColor = favoriteMoviesId.includes(id.toString())
+      ? 'star-gold' : 'star-white'
+
     return `
-      <div class="card" data-id="${id}" data-star="white">
-        <div class="star star-white" ></div>
+        <div class="card" ${dataAtributes}" >
+        <div class="star ${starColor}" ></div>
         <img src="${img}" class="movie-img" alt="${name}">
         <div class="movie-body">
           <p class="movie-text text-center">${name}</p>
           <p class="movie-text text-center">${year}</p>
         </div>
       </div>
-    `
+      `
   }).join('')
 
   moviesWrapper.innerHTML = ''
@@ -89,7 +99,7 @@ const renderFavorites = (ids) => {
     allCards = favoriteMovies.map(({ id, name }) => {
       return `
       <li class="favorite-text" data-id="${id}">
-      <span>&rarr;&nbsp;&nbsp;${name}</span>
+      <span class="favorite-name">&rarr;&nbsp;&nbsp;${name}</span>
       <span class="delete-mark" data-id="${id}">&times;</span>
       
       </li>
@@ -100,6 +110,8 @@ const renderFavorites = (ids) => {
   favoriteUl.innerHTML = ""
   favoriteUl.innerHTML = allCards
 }
+
+renderFavorites(JSON.parse(localStorage.getItem('favoriteMoviesId')))
 
 // @ Render modal movie 
 
@@ -229,7 +241,7 @@ movieGallery.addEventListener('click', (e) => {
     openModalMovieHandler(e)
   }
 
-  if (e.target.closest('.favorite-text')) {
+  if (e.target.closest('.favorite-name')) {
     openModalMovieHandler(e)
   }
 
@@ -250,6 +262,7 @@ favoriteUl.addEventListener('click', (e) => {
     card.dataset.star === "white" ? card.dataset.star = "favorite" : card.dataset.star = "white"
 
     card.querySelector('.star').classList.remove('star-gold')
+    card.querySelector('.star').classList.add('star-white')
 
     // Reset favorite movies' 
 
