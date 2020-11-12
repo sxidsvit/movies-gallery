@@ -21,13 +21,10 @@ renderDashboard()
 
 renderFavorites(getDBdata('favoriteMoviesId'))
 
-// Hendlers 
-
-
+// EventListeners
 
 const dashboardView = document.querySelector('.dashboard-view')
 dashboardView.addEventListener('click', changeMoviesLayout)
-
 
 const movieGallery = document.querySelector('.movie-gallery')
 movieGallery.addEventListener('click', openNodal)

@@ -1,15 +1,21 @@
+import { getDBdata } from '../db'
 
 export const renderDashboard = () => {
 
   const dashboard = document.querySelector('.dashboard')
 
+  const genres = getDBdata('genres')
+
+  const genresOptionsList = genres
+    .map(genre => {
+      return `<option value="${genre}">${genre}</option>`
+    }).join('')
+
   const dashboardContent = `
         <div class="dashboard-select">
         <select class="custom-select">
           <option selected>select genre</option>
-          <option value="1">action</option>
-          <option value="2">crime</option>
-          <option value="3">USA</option>
+          ${genresOptionsList}
         </select>
       </div>
 

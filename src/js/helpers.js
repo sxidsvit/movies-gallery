@@ -11,7 +11,7 @@ export function openModalMovie(e) {
   modal.classList.remove('modal-hide')
 }
 
-// ==============================
+// getFavorites 
 
 const moviesWrapper = document.querySelector('.movies-wrapper')
 
@@ -19,4 +19,19 @@ export function getFavorites() {
   return [...moviesWrapper.querySelectorAll('.card')]
     .filter(card => card.dataset.star === 'favorite')
     .map(card => card.dataset.id)
+}
+
+// Grouping movies by genres 
+
+export function groupMoviesByGenres(movies, genres) {
+  //  All geners 
+  const allGeners = [...new Set(movies.map(movie => movie[genres]).flat())]
+
+  // Grouping movies by genres
+  const moviesByGeners = {}
+  for (let value of allGeners) {
+    moviesByGeners[value] = movies.filter(movie => movie[genres].includes(value))
+  }
+
+  return [allGeners, moviesByGeners]
 }
