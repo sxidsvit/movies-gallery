@@ -34,6 +34,10 @@ $color-gold: #F7AC08;
   .dashboard-select {
     margin-left: 1.5rem;
   }
+
+  .dashboard-view {
+    display: flex;
+  }
   .view-text {
     margin-right: 1.5rem;
     font-size: 1.2rem;
@@ -44,6 +48,29 @@ $color-gold: #F7AC08;
     height: 35px;
     margin: 0 0.4rem;
   }
+
+  .grid-dark {
+    background: url(../img/svg/grid-dark.svg) no-repeat center;
+    background-size: 35px 35px;
+  }
+
+  .grid-gray {
+    background: url(../img/svg/grid-gray.svg) no-repeat;
+    background-size: 35px 35px;
+  }
+
+  .list-dark {
+    background: url(../img/svg/list-dark.svg) no-repeat;
+    background-size: 35px 35px;
+  }
+
+  .list-gray {
+    background: url(../img/svg/list-gray.svg) no-repeat;
+    background-size: 35px 35px;
+  }
+
+
+  
 }
 
 
@@ -72,7 +99,6 @@ $color-gold: #F7AC08;
   min-width: 0;
   word-wrap: break-word;
   background-color: #fff;
-  /* background-clip: border-box; */
   border: 1px solid $line-color;
   border-radius: 1rem;
   padding: 1rem;
@@ -141,8 +167,6 @@ ul {
 }
 
 .favorite-ul {
-  /* list-style-image: url(../img/arrow.png);
-  list-style-position: outside; */
   list-style: none;
   padding-left: 0;
   padding-right: 0;
