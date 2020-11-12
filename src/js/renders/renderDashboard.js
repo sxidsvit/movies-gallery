@@ -15,8 +15,8 @@ export const renderDashboard = () => {
 
       <div class="dashboard-view">
         <div class="view-text">view as:</div>
-        <div class="svg-icon grid-dark" data-layout="grid" ></div>
-        <div class="svg-icon list-gray" data-layout="list" ></div>
+        <div class="svg-icon grid-dark" data-layout="grid"></div>
+        <div class="svg-icon list-gray" data-layout="list"></div>
       </div>
   `
 

@@ -1,7 +1,8 @@
 import { getDBdata } from './js/db'
 import { fetchData } from './js/fetchData'
 import { renderFavorites } from './js/renders/renderFavorites'
-import { openNodal, clickFavoriteUl } from './js/handlers'
+import { openNodal, clickFavoriteUl, changeMoviesLayout } from './js/handlers'
+
 import { renderDashboard } from './js/renders/renderDashboard'
 
 // Constants 
@@ -21,6 +22,12 @@ renderDashboard()
 renderFavorites(getDBdata('favoriteMoviesId'))
 
 // Hendlers 
+
+
+
+const dashboardView = document.querySelector('.dashboard-view')
+dashboardView.addEventListener('click', changeMoviesLayout)
+
 
 const movieGallery = document.querySelector('.movie-gallery')
 movieGallery.addEventListener('click', openNodal)

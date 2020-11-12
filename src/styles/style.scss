@@ -47,6 +47,9 @@ $color-gold: #F7AC08;
     width: 35px;
     height: 35px;
     margin: 0 0.4rem;
+    &:hover {
+      cursor: pointer;
+    }
   }
 
   .grid-dark {

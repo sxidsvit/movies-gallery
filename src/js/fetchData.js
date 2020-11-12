@@ -1,7 +1,7 @@
 // @ Get all movies from server 
 //  and save them to localStorage
 import { removeDBdata, setDBdata, getDBdata } from './db'
-import { renderAllMovies } from './renders/renderAllMoviesList'
+import { renderAllMoviesGrid } from './renders/renderAllMoviesGrid'
 
 export async function fetchData(url) {
   try {
@@ -21,7 +21,7 @@ export async function fetchData(url) {
     removeDBdata('movies');
     setDBdata('movies', moviesById)
 
-    renderAllMovies(moviesById)
+    renderAllMoviesGrid(moviesById)
 
   } catch (err) {
     console.log(`Problem with fetching data: ${err.message}`)

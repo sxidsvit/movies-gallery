@@ -4,7 +4,7 @@ import { truncate } from '../utils'
 
 const moviesWrapper = document.querySelector('.movies-wrapper')
 
-export function renderAllMovies(movies) {
+export function renderAllMoviesList(movies) {
 
   if (!movies) {
     console.log('movies: ', movies);

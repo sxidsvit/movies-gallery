@@ -104,3 +104,36 @@ export function clickFavoriteUl(e) {
     renderFavorites(newFavoriteMoviesId)
   }
 }
+
+//  Change movies' layout 
+
+import { renderAllMoviesGrid } from './renders/renderAllMoviesGrid'
+import { renderAllMoviesList } from './renders/renderAllMoviesList'
+// import { getDBdata } from './db'
+
+export function changeMoviesLayout(e) {
+
+  const target = e.target
+  const layout = target.dataset.layout
+  const movies = getDBdata('movies')
+
+  if (layout === 'grid') {
+    renderAllMoviesGrid(movies)
+    target.classList.toggle('grid-gray')
+    target.classList.toggle('grid-dark')
+    const newTarget = target.parentElement
+      .querySelector('[data-layout =\'list\']')
+    newTarget.classList.toggle('list-dark')
+    newTarget.classList.toggle('list-gray')
+
+  } else {
+    renderAllMoviesList(movies)
+    target.classList.toggle('list-gray')
+    target.classList.toggle('list-dark')
+    const newTarget = target.parentElement
+      .querySelector('[data-layout =\'grid\']')
+    newTarget.classList.toggle('grid-dark')
+    newTarget.classList.toggle('grid-gray')
+
+  }
+}

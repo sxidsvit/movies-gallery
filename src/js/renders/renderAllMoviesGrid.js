@@ -3,7 +3,7 @@ import { getDBdata } from '../db'
 
 const moviesWrapper = document.querySelector('.movies-wrapper')
 
-export function renderAllMovies(movies) {
+export function renderAllMoviesGrid(movies) {
 
   if (!movies) {
     console.log('movies: ', movies);
