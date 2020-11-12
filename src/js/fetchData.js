@@ -1,7 +1,7 @@
 // @ Get all movies from server 
 //  and save them to localStorage
 import { removeDBdata, setDBdata, getDBdata } from './db'
-import { renderAllMovies } from './renders/renderAllMovies'
+import { renderAllMovies } from './renders/renderAllMoviesList'
 
 export async function fetchData(url) {
   try {

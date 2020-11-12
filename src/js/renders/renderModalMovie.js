@@ -41,7 +41,8 @@ export const renderModalMovie = (id) => {
         <div class="movie-geners">${genresList}
         </div>
       </div>
-      <div class="movie-content-rigth">
+     
+      <div class="movie-content-right">
         <div class="movie-title">${name}</div>
         <div class="movie-description">
          ${description}
@@ -55,6 +56,8 @@ export const renderModalMovie = (id) => {
           ${starringList}
           <span>Tony Goldwyn&nbsp;</span>
         </div>
+       </div>
+
       </div>
     `
   movieContent.innerHTML = ''

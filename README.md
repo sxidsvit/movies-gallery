@@ -10,7 +10,7 @@
 
 - [GitHUb repo](https://github.com/sxidsvit/glo-kinopoisk)
 
-#### (3) Aditional/optional requirements wil be done soon
+#### (3) Aditional/optional requirements will be done soon
 
 ---
 
