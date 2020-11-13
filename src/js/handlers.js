@@ -117,10 +117,12 @@ export function changeMoviesLayout(e) {
   const layout = target.dataset.layout
   removeDBdata('currentView')
   setDBdata('currentView', layout)
-  const movies = getDBdata('movies')
+
+  const movies = getDBdata('moviesByGenres')
+  const selectedGenre = getDBdata('selectedGenre')
 
   if (layout === 'grid') {
-    renderAllMoviesGrid(movies)
+    renderAllMoviesGrid(movies[selectedGenre])
     target.classList.toggle('grid-gray')
     target.classList.toggle('grid-dark')
     const newTarget = target.parentElement
@@ -130,7 +132,7 @@ export function changeMoviesLayout(e) {
 
 
   } else {
-    renderAllMoviesList(movies)
+    renderAllMoviesList(movies[selectedGenre])
     target.classList.toggle('list-gray')
     target.classList.toggle('list-dark')
     const newTarget = target.parentElement
@@ -149,6 +151,8 @@ import { renderAllMoviesList } from './renders/renderAllMoviesList'
 export function changeSelectedGener(e) {
 
   const selectedGenre = e.target.value
+  removeDBdata(selectedGenre)
+  setDBdata('selectedGenre', selectedGenre)
 
   const movies = getDBdata('moviesByGenres')
   const currentView = getDBdata('currentView')

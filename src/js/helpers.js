@@ -28,10 +28,12 @@ export function groupMoviesByGenres(movies, genres) {
   const allGeners = [...new Set(movies.map(movie => movie[genres]).flat())]
 
   // Grouping movies by genres
-  const moviesByGeners = {}
+  const moviesByGeners = { 'all': movies }
   for (let value of allGeners) {
     moviesByGeners[value] = movies.filter(movie => movie[genres].includes(value))
   }
+
+  allGeners.unshift('all')
 
   return [allGeners, moviesByGeners]
 }
