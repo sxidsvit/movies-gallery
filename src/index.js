@@ -1,7 +1,7 @@
 import { getDBdata } from './js/db'
 import { fetchData } from './js/fetchData'
 import { renderFavorites } from './js/renders/renderFavorites'
-import { openNodal, clickFavoriteUl, changeMoviesLayout } from './js/handlers'
+import { openNodal, clickFavoriteUl, changeMoviesLayout, changeSelectedGener } from './js/handlers'
 
 import { renderDashboard } from './js/renders/renderDashboard'
 
@@ -23,11 +23,18 @@ renderFavorites(getDBdata('favoriteMoviesId'))
 
 // EventListeners
 
+//  @ Geners' selector
+const customSelect = document.querySelector('.custom-select')
+customSelect.addEventListener('click', changeSelectedGener)
+
+//  @ Movies view (grid/list) selector
 const dashboardView = document.querySelector('.dashboard-view')
 dashboardView.addEventListener('click', changeMoviesLayout)
 
-const movieGallery = document.querySelector('.movie-gallery')
-movieGallery.addEventListener('click', openNodal)
+// @ Movies gallery wrapper
+const moviesGallery = document.querySelector('.movie-gallery')
+moviesGallery.addEventListener('click', openNodal)
 
+// @ Favorite list
 const favoriteUl = document.querySelector('.favorite-ul')
 favoriteUl.addEventListener('click', clickFavoriteUl)

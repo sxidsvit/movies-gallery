@@ -107,14 +107,16 @@ export function clickFavoriteUl(e) {
 
 //  Change movies' layout 
 
-import { renderAllMoviesGrid } from './renders/renderAllMoviesGrid'
-import { renderAllMoviesList } from './renders/renderAllMoviesList'
-// import { getDBdata } from './db'
+// import { renderAllMoviesGrid } from './renders/renderAllMoviesGrid'
+// import { renderAllMoviesList } from './renders/renderAllMoviesList'
+// import { getDBdata, setDBdata, removeDBdata } from './db'
 
 export function changeMoviesLayout(e) {
 
   const target = e.target
   const layout = target.dataset.layout
+  removeDBdata('currentView')
+  setDBdata('currentView', layout)
   const movies = getDBdata('movies')
 
   if (layout === 'grid') {
@@ -126,6 +128,7 @@ export function changeMoviesLayout(e) {
     newTarget.classList.toggle('list-dark')
     newTarget.classList.toggle('list-gray')
 
+
   } else {
     renderAllMoviesList(movies)
     target.classList.toggle('list-gray')
@@ -136,4 +139,21 @@ export function changeMoviesLayout(e) {
     newTarget.classList.toggle('grid-gray')
 
   }
+}
+
+//  Change selected gener
+
+import { renderAllMoviesGrid } from './renders/renderAllMoviesGrid'
+import { renderAllMoviesList } from './renders/renderAllMoviesList'
+
+export function changeSelectedGener(e) {
+
+  const selectedGenre = e.target.value
+
+  const movies = getDBdata('moviesByGenres')
+  const currentView = getDBdata('currentView')
+
+  currentView === 'grid'
+    ? renderAllMoviesGrid(movies[selectedGenre])
+    : renderAllMoviesList(movies[selectedGenre])
 }
