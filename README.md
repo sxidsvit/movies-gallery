@@ -32,7 +32,6 @@ npm run clean
 npm run build
 
 # Run server
-
 serve dist
 ---
 ```

@@ -1,21 +1,3 @@
-//  addModalMovieListener ==========
-
-export function addModalMovieListener() {
-
-  const modal = document.querySelector('.modal')
-  const closeModalHandler = (e) => {
-    e.preventDefault()
-    const target = e.target
-    if (target.classList.contains('modal')
-      || target.classList.contains('modal-close')) {
-      modal.classList.add('modal-hide')
-      modal.removeEventListener('click', closeModalHandler)
-    }
-  }
-
-  modal.addEventListener('click', closeModalHandler)
-}
-
 //  markFavoriteMovies
 
 import { getFavorites } from './helpers'
@@ -104,12 +86,6 @@ export function clickFavoriteUl(e) {
     renderFavorites(newFavoriteMoviesId)
   }
 }
-
-//  Change movies' layout 
-
-// import { renderAllMoviesGrid } from './renders/renderAllMoviesGrid'
-// import { renderAllMoviesList } from './renders/renderAllMoviesList'
-// import { getDBdata, setDBdata, removeDBdata } from './db'
 
 export function changeMoviesLayout(e) {
 

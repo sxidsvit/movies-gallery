@@ -1,6 +1,6 @@
 //  renderModalMovie   =====================
 
-import { addModalMovieListener } from '../handlers'
+import { addModalMovieListener } from '../listeners'
 import { getDBdata } from '../db'
 
 const movieContent = document.querySelector('.modal > .movie-content')

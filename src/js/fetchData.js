@@ -1,8 +1,9 @@
 // @ Get all movies from remote server 
 //  and save them to localStorage
 import { removeDBdata, setDBdata, getDBdata } from './db'
-import { renderAllMoviesGrid } from './renders/renderAllMoviesGrid'
 import { groupMoviesByGenres } from './helpers'
+import { renderAllMoviesGrid } from './renders/renderAllMoviesGrid'
+import { renderDashboard } from './renders/renderDashboard'
 
 // Fetch movies from remote server
 
@@ -33,6 +34,7 @@ export async function fetchData(url) {
     removeDBdata('moviesByGenres');
     setDBdata('moviesByGenres', moviesByGeners)
 
+    renderDashboard()
 
     const selectedGenre = getDBdata('selectedGenre') ?? 'all'
     renderAllMoviesGrid(moviesByGeners[selectedGenre])

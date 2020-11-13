@@ -1,6 +1,6 @@
 //  renderAllMovies ==================
 import { getDBdata } from '../db'
-import { truncate } from '../utils'
+import { truncate } from '../helpers'
 
 const moviesWrapper = document.querySelector('.movies-wrapper')
 

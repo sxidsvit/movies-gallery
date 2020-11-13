@@ -1,11 +1,11 @@
 import { getDBdata } from '../db'
+import { addDashboardListener } from '../listeners'
 
 export const renderDashboard = () => {
 
   const dashboard = document.querySelector('.dashboard')
 
   const genres = getDBdata('genres') ?? []
-  console.log('renderDashboard genres: ', genres);
 
   const genresOptionsList = genres
     .map(genre => {
@@ -29,4 +29,6 @@ export const renderDashboard = () => {
 
   dashboard.innerHTML = ''
   dashboard.innerHTML = dashboardContent
+
+  addDashboardListener()
 }
