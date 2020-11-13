@@ -1,9 +1,8 @@
 import { getDBdata } from './js/db'
 import { fetchData } from './js/fetchData'
 import { renderFavorites } from './js/renders/renderFavorites'
-import { openNodal, clickFavoriteUl, changeMoviesLayout, changeSelectedGener } from './js/handlers'
-
 import { renderDashboard } from './js/renders/renderDashboard'
+import { openNodal, clickFavoriteUl, changeMoviesLayout, changeSelectedGener } from './js/handlers'
 
 // Constants 
 
@@ -14,7 +13,6 @@ const FullList = `http://my-json-server.typicode.com/moviedb-tech/movies/list`
 fetchData(FullList)
 
 // @ Render dashboard
-
 renderDashboard()
 
 // @ Render favorite movies list

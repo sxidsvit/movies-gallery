@@ -21,21 +21,21 @@ export async function fetchData(url) {
       moviesById[value] = movies.filter(item => item.id === value)[0]
     }
 
+    removeDBdata('movies');
+    setDBdata('movies', moviesById)
+
     // Grouping movies by genres 
 
     const [allGeners, moviesByGeners] = groupMoviesByGenres(movies, 'genres')
 
-    // Render all movies as cards' grid
-    renderAllMoviesGrid(moviesById)
-
-    //  Save movies & genres to DataBase
-    removeDBdata('movies');
-    setDBdata('movies', moviesById)
     removeDBdata('genres');
     setDBdata('genres', allGeners)
     removeDBdata('moviesByGenres');
     setDBdata('moviesByGenres', moviesByGeners)
 
+
+    const selectedGenre = getDBdata('selectedGenre') ?? 'all'
+    renderAllMoviesGrid(moviesByGeners[selectedGenre])
 
   } catch (err) {
     console.log(`Problem with fetching data: ${err.message}`)
