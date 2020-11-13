@@ -4,7 +4,8 @@ export const renderDashboard = () => {
 
   const dashboard = document.querySelector('.dashboard')
 
-  const genres = getDBdata('genres')
+  const genres = getDBdata('genres') ?? []
+  console.log('renderDashboard genres: ', genres);
 
   const genresOptionsList = genres
     .map(genre => {

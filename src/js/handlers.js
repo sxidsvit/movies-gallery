@@ -115,13 +115,18 @@ export function changeMoviesLayout(e) {
 
   const target = e.target
   const layout = target.dataset.layout
-  removeDBdata('currentView')
-  setDBdata('currentView', layout)
 
-  const movies = getDBdata('moviesByGenres')
-  const selectedGenre = getDBdata('selectedGenre')
+  // if (!!layout) {
+  //   removeDBdata('currentView')
+  //   setDBdata('currentView', layout)
+  //   console.log('if layout: ', layout);
+  // }
 
-  if (layout === 'grid') {
+  if (!!layout && layout == 'grid') {
+    removeDBdata('currentView')
+    setDBdata('currentView', layout)
+    const movies = getDBdata('moviesByGenres')
+    const selectedGenre = getDBdata('selectedGenre') ?? 'all'
     renderAllMoviesGrid(movies[selectedGenre])
     target.classList.toggle('grid-gray')
     target.classList.toggle('grid-dark')
@@ -129,9 +134,13 @@ export function changeMoviesLayout(e) {
       .querySelector('[data-layout =\'list\']')
     newTarget.classList.toggle('list-dark')
     newTarget.classList.toggle('list-gray')
+  }
 
-
-  } else {
+  if (!!layout && layout == 'list') {
+    removeDBdata('currentView')
+    setDBdata('currentView', layout)
+    const movies = getDBdata('moviesByGenres')
+    const selectedGenre = getDBdata('selectedGenre') ?? 'all'
     renderAllMoviesList(movies[selectedGenre])
     target.classList.toggle('list-gray')
     target.classList.toggle('list-dark')
@@ -139,7 +148,6 @@ export function changeMoviesLayout(e) {
       .querySelector('[data-layout =\'grid\']')
     newTarget.classList.toggle('grid-dark')
     newTarget.classList.toggle('grid-gray')
-
   }
 }
 
@@ -155,7 +163,7 @@ export function changeSelectedGener(e) {
   setDBdata('selectedGenre', selectedGenre)
 
   const movies = getDBdata('moviesByGenres')
-  const currentView = getDBdata('currentView')
+  const currentView = getDBdata('currentView') ?? 'list'
 
   currentView === 'grid'
     ? renderAllMoviesGrid(movies[selectedGenre])
