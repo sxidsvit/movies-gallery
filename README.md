@@ -10,7 +10,7 @@
 
 - [GitHUb repo](https://github.com/sxidsvit/glo-kinopoisk)
 
-#### (3) Additional / optional requirement to make the application with responsive design done partially
+#### (3) Additional / optional requirements done
 
 ---
 
