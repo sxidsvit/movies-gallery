@@ -6,7 +6,7 @@
 
 #### (2) A very close analogue of this application, created by me over a year ago:
 
-- [Site](http://git.lekua.in.ua/glo-kinopoisk/)
+- [Site](https://github.com/sxidsvit/movies-gallery)
 
 - [GitHUb repo](https://github.com/sxidsvit/glo-kinopoisk)
 
